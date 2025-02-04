@@ -175,28 +175,4 @@ const userSlice = createSlice({
 });
 
 export const { setUser, clearUser } = userSlice.actions;
-export default userSlice.reducer;
-
-
-Dear Umurava Talent Management Team
-Greetings!
-
-I hope this email finds you well. I am writing to inform you that my team and I have successfully completed our work on the Skills Challenge for Software Developers as per the provided instructions. We are excited to share our deliverables and are ready for the next steps in the process.
-
-We would appreciate it if you could guide us on how to proceed with the submission of our work and any additional information or feedback you may require from us.
-
-Thank you for your support throughout this challenge. We look forward to hearing from you soon.
-
-Best regards,
-[Your Full Name]
-Dear Umurava Talent Management Team
-Greetings!
-
-I hope this email finds you well. I am writing to inform you that my team and I have successfully completed our work on the Skills Challenge for Software Developers as per the provided instructions. We are excited to share our deliverables and are ready for the next steps in the process.
-
-We would appreciate it if you could guide us on how to proceed with the submission of our work and any additional information or feedback you may require from us.
-
-Thank you for your support throughout this challenge. We look forward to hearing from you soon.
-
-Best regards,
-[Your Full Name]
+export default userSlice.reducer
