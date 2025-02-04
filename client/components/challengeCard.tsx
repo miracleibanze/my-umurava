@@ -43,6 +43,7 @@ interface Challenge {
   difficulty?: string;
   deadline?: string;
   className?: string;
+  redirect?: boolean;
 }
 
 const ChallengeCard: FC<Challenge> = ({
@@ -53,60 +54,67 @@ const ChallengeCard: FC<Challenge> = ({
   difficulty,
   deadline,
   className,
-}) => (
-  <div className="relative w-full max-w-max">
+  redirect,
+}) => {
+  const directLink = `/dashboard/challenges&hackathons/${title}/${_id}`;
+  const encodedLink = encodeURIComponent(directLink);
+  return (
     <div
-      className={`border border-blue-500/20 w-[18rem] h-[23rem] rounded-t-lg p-4 ${
-        className && className
+      className={`relative w-full ${
+        className ? className : "w-full max-w-[18rem]"
       }`}
     >
-      <div className="flex justify-between items-center mb-4 w-full aspect-video rounded-lg overflow-hidden relative">
-        <Image
-          src={umurava}
-          alt="Umurava Logo"
-          className="absolute inset-0"
-          width={500}
-          height={500}
-        />
-        <span className="absolute top-2 right-2 rounded-full bg-green-700 text-white py-1 px-4">
-          {status}
-        </span>
+      <div
+        className={`border border-blue-500/20 h-[23rem] rounded-t-lg p-4 w-full`}
+      >
+        <div className="flex justify-between items-center mb-4 w-full aspect-video rounded-lg overflow-hidden relative">
+          <Image
+            src={umurava}
+            alt="Umurava Logo"
+            className="absolute inset-0"
+            width={500}
+            height={500}
+          />
+          <span className="absolute top-2 right-2 rounded-full bg-green-700 text-white py-1 px-4">
+            {status}
+          </span>
+        </div>
+        <h3 className="text-sm font-semibold mb-2 leading-tight">{title}</h3>
+        <p className="text-[12px] text-zinc-600 capitalize">
+          <b>Status:</b> {status}
+        </p>
+        <p className="text-[12px] text-zinc-600 font-semibold">
+          Skills Needed:
+          <br />
+          {skills?.map((item, index) => (
+            <button
+              className="button m-1 border border-primary/60 !px-1 !py-0 !text-[10px] text-primary/70"
+              key={index}
+            >
+              {item}
+            </button>
+          ))}
+        </p>
+        {difficulty && (
+          <p className="text-[12px] text-zinc-600">
+            <b>Difficulty Level:</b> {difficulty}
+          </p>
+        )}
+        {deadline && (
+          <p className="text-[12px] text-zinc-600">
+            <b>Deadline:</b> {deadline}
+          </p>
+        )}
       </div>
-      <h3 className="text-sm font-semibold mb-2 leading-tight">{title}</h3>
-      <p className="text-[12px] text-zinc-600 capitalize">
-        <b>Status:</b> {status}
-      </p>
-      <p className="text-[12px] text-zinc-600 font-semibold">
-        Skills Needed:
-        <br />
-        {skills?.map((item, index) => (
-          <button
-            className="button m-1 border border-primary/60 !px-1 !py-0 !text-[10px] text-primary/70"
-            key={index}
-          >
-            {item}
+      <div className="bg-white text-blue-500 px-4 py-2 rounded-b-md border border-blue-500/20 border-t-none w-full">
+        <Link href={!redirect ? directLink : `/login?redirect=${encodedLink}`}>
+          <button className="button bg-primary !text-[12px] !py-1 text-white">
+            View Challenge
           </button>
-        ))}
-      </p>
-      {difficulty && (
-        <p className="text-[12px] text-zinc-600">
-          <b>Difficulty Level:</b> {difficulty}
-        </p>
-      )}
-      {deadline && (
-        <p className="text-[12px] text-zinc-600">
-          <b>Deadline:</b> {deadline}
-        </p>
-      )}
+        </Link>
+      </div>
     </div>
-    <div className="bg-white text-blue-500 px-4 py-2 rounded-b-md border border-blue-500/20 border-t-none w-full">
-      <Link href={`/dashboard/challenges&hackathons/${title}/${_id}`}>
-        <button className="button bg-primary !text-[12px] !py-1 text-white">
-          View Challenge
-        </button>
-      </Link>
-    </div>
-  </div>
-);
+  );
+};
 
 export default ChallengeCard;

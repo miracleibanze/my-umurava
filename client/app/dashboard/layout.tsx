@@ -2,7 +2,7 @@
 
 import "../globals.css";
 import DashboardNavbar from "@components/DashboardNavbar";
-import { usePathname } from "@node_modules/next/navigation";
+import { usePathname } from "next/navigation";
 
 export default function DashLayout({
   children,

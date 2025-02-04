@@ -1,4 +1,5 @@
 import Heading from "@components/Heading";
+import Link from "next/link";
 import { challengeRoute, imageUmurava } from "@public";
 import Image from "next/image";
 import { FC } from "react";
@@ -91,9 +92,15 @@ const page: FC = () => {
             and experience that increases their readiness to access job
             opportunities and projects.
           </p>
-          <button className="bg-blue-500 hover:bg-blue-600 text-white px-12 py-4 rounded-md mt-4">
-            Get Started
-          </button>
+          <Link
+            href={`/login?redirect=${encodeURIComponent(
+              "/dashboard/challenges&hackathons"
+            )}`}
+          >
+            <button className="bg-blue-500 hover:bg-blue-600 text-white px-12 py-4 rounded-md mt-4">
+              Get Started
+            </button>
+          </Link>
         </div>
         <div className="w-full sm:w-1/2 mt-4 sm:mt-0 flex-1">
           <Image

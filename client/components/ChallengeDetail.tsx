@@ -8,9 +8,10 @@ import { Challenge } from "@redux/slices/challengeSlice";
 
 interface ChallengeDetailsProps {
   challenge: Challenge | undefined;
+  admin: boolean;
 }
 
-const ChallengeDetails: FC<ChallengeDetailsProps> = ({ challenge }) => {
+const ChallengeDetails: FC<ChallengeDetailsProps> = ({ challenge, admin }) => {
   const contacts = [
     {
       name: "Contact Email",
@@ -124,69 +125,90 @@ const ChallengeDetails: FC<ChallengeDetailsProps> = ({ challenge }) => {
                   </div>
                 </div>
               ))}
-              <div className="grid grid-cols-2 gap-4 mt-4">
-                <button
-                  type="button"
-                  className="button bg-red-500 text-white !py-4 "
-                >
-                  Cancel
-                </button>
-                <Link
-                  href={`/dashboard/challenges&hackathons/${challenge.title}/${challenge._id}/edit`}
-                  className="w-full"
-                >
-                  <button className="button bg-primary text-white !py-4 w-full">
-                    Edit
-                  </button>
-                </Link>
-              </div>
-            </div>
-            <div className="w-full max-w-md bg-white rounded-md border border-zinc-200 pt-6">
-              <p className="body-2 font-semibold list-disc list-inside mb-4 flex items-center gap-2 px-6">
-                Participants{" "}
-                <span className="bg-primary text-white px-3 text-[12px] py-0 flex items-center rounded-lg h-4">
-                  {challenge?.participants?.length}
-                </span>
-              </p>
-              {Array(5)
-                .fill("")
-                .map((_, index) => (
-                  <div
-                    className={`flex items-center gap-3 mb-2 pt-2 border-t border-zinc-200/70 px-6 ${
-                      challenge?.participants?.length &&
-                      index >= challenge?.participants?.length &&
-                      "hidden"
-                    }`}
-                    key={index}
+              <div
+                className={` gap-4 mt-4 ${admin ? "grid grid-cols-2" : "flex"}`}
+              >
+                {admin ? (
+                  <>
+                    <button
+                      type="button"
+                      className="button bg-red-500 text-white !py-4 "
+                    >
+                      Cancel
+                    </button>
+                    <Link
+                      href={`/dashboard/challenges&hackathons/${challenge.title}/${challenge._id}/edit`}
+                      className="w-full"
+                    >
+                      <button className="button bg-primary text-white !py-4 w-full">
+                        Edit
+                      </button>
+                    </Link>
+                  </>
+                ) : (
+                  <a
+                    href={`mailto:${
+                      challenge.email
+                    }?subject=${encodeURIComponent(
+                      `Submission of ${challenge.title}`
+                    )}`}
+                    className="w-full"
                   >
-                    <i
-                      className={`far fa-user p-4 rounded-full aspect-square flex-0 bg-primary/10 text-primary`}
-                    ></i>
-                    <div className="flex-1 px-2">
-                      <p className="body-2 font-semibold leading-tight">
-                        {challenge?.participants?.length &&
-                          challenge?.participants[index]?.name}
-                      </p>
-                      <p className="text-sm text-zinc-600 leading-tight">
-                        {challenge?.participants?.length &&
-                          challenge?.participants[index]?.role}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              <div className="w-full border-t border-zinc-200/70 px-6 py-3 flex">
-                <button
-                  className={`button w-full ${
-                    challenge?.participants?.length &&
-                    challenge?.participants?.length > 5
-                      ? "bg-primary text-white"
-                      : "bg-zinc-300 text-zinc-500"
-                  }`}
-                >
-                  View more
-                </button>
+                    <button className="button bg-primary text-white !py-4 w-full">
+                      Submit your work
+                    </button>
+                  </a>
+                )}
               </div>
             </div>
+            {admin && (
+              <div className="w-full max-w-md bg-white rounded-md border border-zinc-200 pt-6">
+                <p className="body-2 font-semibold list-disc list-inside mb-4 flex items-center gap-2 px-6">
+                  Participants{" "}
+                  <span className="bg-primary text-white px-3 text-[12px] py-0 flex items-center rounded-lg h-4">
+                    {challenge?.participants?.length}
+                  </span>
+                </p>
+                {Array(5)
+                  .fill("")
+                  .map((_, index) => (
+                    <div
+                      className={`flex items-center gap-3 mb-2 pt-2 border-t border-zinc-200/70 px-6 ${
+                        challenge?.participants?.length &&
+                        index >= challenge?.participants?.length &&
+                        "hidden"
+                      }`}
+                      key={index}
+                    >
+                      <i
+                        className={`far fa-user p-4 rounded-full aspect-square flex-0 bg-primary/10 text-primary`}
+                      ></i>
+                      <div className="flex-1 px-2">
+                        <p className="body-2 font-semibold leading-tight">
+                          {challenge?.participants?.length &&
+                            challenge?.participants[index]?.name}
+                        </p>
+                        <p className="text-sm text-zinc-600 leading-tight">
+                          {challenge?.participants?.length &&
+                            challenge?.participants[index]?.role}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                <div className="w-full border-t border-zinc-200/70 px-6 py-3 flex">
+                  <button
+                    className={`button w-full ${
+                      challenge?.participants?.length &&
+                      challenge?.participants?.length > 5
+                        ? "bg-primary text-white"
+                        : "hidden"
+                    }`}
+                  >
+                    View more
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       ) : (

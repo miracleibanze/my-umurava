@@ -1,4 +1,5 @@
 import Heading from "@components/Heading";
+import Link from "next/link";
 import {
   Ared,
   banner_img,
@@ -97,9 +98,11 @@ const page: FC = () => {
             build the work experience of their students and trainees through
             project-based learning challenges and hackathons.
           </p>
-          <button className="bg-primary hover:bg-blue-600 text-white px-8 py-3 rounded-md">
-            Partner with us
-          </button>
+          <Link href="/contact">
+            <button className="bg-primary hover:bg-blue-600 text-white px-8 py-3 rounded-md">
+              Partner with us
+            </button>
+          </Link>
         </div>
         <Image src={Image3} alt="students" />
       </section>

@@ -1,17 +1,20 @@
-import React from "react";
-import Link from "@node_modules/next/link";
+import React, { useEffect } from "react";
+import Link from "next/link";
 import { FC, useState } from "react";
-import { setUser, setUserId, User } from "@redux/slices/userSlice";
-import Heading from "./Heading";
 import { jobTitles } from "./constants";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@redux/store";
-import { useRouter } from "@node_modules/next/navigation";
-import axiosInstance from "./features/axiosInstance";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@redux/store";
+import { useRouter, useSearchParams } from "next/navigation";
+import { registerUser, User } from "@redux/slices/userSlice";
 
 const Register: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const { status } = useSelector((state: RootState) => state.user);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirect") || "/dashboard";
+  const isRedirect = searchParams.get("redirect");
+
   const [formData, setFormData] = useState<User>({
     names: "",
     email: "",
@@ -21,6 +24,7 @@ const Register: FC = () => {
     role: "",
   });
   const [isPasswordVissible, setIsPasswordVissible] = useState<boolean>(false);
+  const [isRegistering, setIsRegistering] = useState<boolean>(false);
   const [stepToRegister, setStepToRegister] = useState<number>(0);
   const handleVisibility = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsPasswordVissible(e.target.checked);
@@ -40,11 +44,15 @@ const Register: FC = () => {
   });
   const [passwordTest, setPasswordTest] = useState<string>("");
 
-  const handleData = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.id]: e.target.value,
-    });
+  const handleData = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target; // Extract name and value directly
+
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,17 +68,19 @@ const Register: FC = () => {
     });
   };
   const handleRegister = async () => {
+    setIsRegistering(true);
     try {
-      const response = await axiosInstance.post("/api/register", formData);
-      const userData = response.data; // Assuming response contains full user data
-
-      dispatch(setUser(userData)); // Store full user data in Redux
-
-      router.push("/dashboard");
+      dispatch(registerUser(formData)); // Store full user data in Redux
     } catch (error) {
       console.error("Registration failed", error);
+    } finally {
+      setIsRegistering(false);
     }
   };
+
+  useEffect(() => {
+    if (status === "succeeded") router.push(redirectTo);
+  }, [status]);
 
   return (
     <>
@@ -80,7 +90,10 @@ const Register: FC = () => {
           <p className="body-2 text-zinc-600 mb-6">
             Create a new account to continue to you UMURAVA,
             <br className="max-md:hidden" /> or already have account ?.{" "}
-            <Link href="/login" className="text-primary">
+            <Link
+              href={isRedirect ? `/login?redirect=${isRedirect}` : "/login"}
+              className="text-primary"
+            >
               Login
             </Link>
           </p>
@@ -95,23 +108,10 @@ const Register: FC = () => {
               type="text"
               className="input placeholder-[10px]"
               id="names"
+              name="names"
               placeholder="Enter your full names"
               required
-            />
-          </label>
-          <label
-            htmlFor="username"
-            className="flex flex-col w-full mx-auto text-start mb-2"
-          >
-            <span className="text-sm text-zinc-600 translate-y-2 translate-x-2 bg-zinc-100 max-w-max pl-2 pr-4">
-              Username
-            </span>
-            <input
-              type="text"
-              className="input placeholder-[10px]"
-              id="username"
-              placeholder="Enter you username"
-              required
+              onChange={handleData}
             />
           </label>
           <label
@@ -125,11 +125,29 @@ const Register: FC = () => {
               type="text"
               className="input placeholder-[10px]"
               id="email"
-              placeholder="Enter your Password"
+              name="email"
+              placeholder="Enter your Email"
               onChange={handleData}
             />
           </label>
 
+          <label
+            htmlFor="phoneNumber"
+            className="flex flex-col w-full mx-auto text-start mb-2"
+          >
+            <span className="text-sm text-zinc-600 translate-y-2 translate-x-2 bg-zinc-100 max-w-max pl-2 pr-4">
+              Telephone
+            </span>
+            <input
+              type="text"
+              className="input placeholder-[10px]"
+              id="phoneNumber"
+              name="phoneNumber"
+              placeholder="Enter you Phone number"
+              onChange={handleData}
+              required
+            />
+          </label>
           <div className="w-full flex justify-end">
             <button
               className="button bg-primary text-white"
@@ -152,7 +170,7 @@ const Register: FC = () => {
             Continue by choosing a strong password.
           </p>
           <label
-            htmlFor="password"
+            htmlFor="passwordCheck"
             className="flex flex-col w-full mx-auto text-start"
           >
             <span className="text-sm text-zinc-600 translate-y-2 translate-x-2 bg-zinc-100 max-w-max pl-2 pr-4">
@@ -161,7 +179,8 @@ const Register: FC = () => {
             <input
               type={isPasswordVissible ? "text" : "password"}
               className="input placeholder-[10px]"
-              id="password"
+              id="passwordCheck"
+              name="passwordCheck"
               placeholder="Enter your Password"
               onChange={handlePasswordChange}
             />
@@ -173,6 +192,7 @@ const Register: FC = () => {
             <input
               type="checkbox"
               id="show"
+              name="show"
               onChange={handleVisibility}
               className="h-max"
             />
@@ -241,15 +261,15 @@ const Register: FC = () => {
               <input
                 type={isPasswordVissible ? "text" : "password"}
                 id="password"
+                name="password"
                 value={formData.password}
                 onChange={handleData}
-                name="password"
                 placeholder="Enter your password to comfirm"
                 className="input placeholder-[10px] border-e-0"
               />
               <span className="absolute right-1 top-0 bottom-0 flex items-center justify-center p-1">
                 <i
-                  className={`fas w-7 h-7 border-dashed border-2 rounded-full text-lg px-1 py-0.5 flex items-center justify-center ${
+                  className={`fas border-dashed border-2 rounded-full text-lg px-1 py-0.5 flex items-center justify-center ${
                     formData.password === passwordTest
                       ? formData.password !== "" &&
                         "fa-check text-green-500 border-green-700"
@@ -288,9 +308,14 @@ const Register: FC = () => {
             <span className="text-sm text-zinc-600 translate-y-2 translate-x-2 bg-zinc-100 max-w-max pl-2 pr-4">
               Role
             </span>
-            <select id="role" className="input">
+            <select
+              id="role"
+              name="role"
+              className="input"
+              onChange={handleData}
+            >
+              <option value="">- Select role -</option>
               <option value="talent">Talent</option>
-              <option value="instructor">Instructor</option>
               <option value="admin">Admin</option>
             </select>
           </label>
@@ -299,9 +324,15 @@ const Register: FC = () => {
             className="flex flex-col w-full mx-auto text-start mb-2"
           >
             <span className="text-sm text-zinc-600 translate-y-2 translate-x-2 bg-zinc-100 max-w-max pl-2 pr-4">
-              Username
+              Title
             </span>
-            <select id="title" className="input">
+            <select
+              id="title"
+              name="title"
+              className="input"
+              onChange={handleData}
+            >
+              <option value="">- Select title -</option>
               {jobTitles?.map((item, index) => (
                 <option value={item} key={index}>
                   {item}
@@ -344,11 +375,15 @@ const Register: FC = () => {
             Your account has been created, tap <strong>Get started</strong> to
             continue to {formData.role} dashboard
           </p>
-          <Link href="/dashboard" className="mx-auto">
-            <button className="button bg-primary text-white max-w-max mx-auto">
-              Get started
-            </button>
-          </Link>
+          <button
+            className={`button max-w-max mx-auto ${
+              isRegistering ? "bg-zinc-400" : "bg-primary text-white"
+            }`}
+            onClick={handleRegister}
+            disabled={isRegistering}
+          >
+            Get started
+          </button>
         </>
       )}
     </>

@@ -14,6 +14,7 @@ import Image from "next/image";
 import Heading from "@components/Heading";
 import ChallengeCard from "@components/challengeCard";
 import { challenges } from "@components/constants";
+import Link from "next/link";
 
 interface Benefit {
   title: string;
@@ -106,7 +107,7 @@ const Home: FC = () => {
 
   return (
     <>
-      <header className="container mx-auto bg-white pb-10 md:pt-0 pt-10 px-5 md:px-20 flex flex-col md:flex-row items-center justify-between">
+      <header className="container mx-auto bg-white pb-10 md:pt-0 pt-10 md:px-12 px-6 flex flex-col md:flex-row items-center justify-between">
         <div className="flex flex-col md:w-1/2 w-full max-w-lg">
           <h1 className="text-4xl font-bold text-blue-700">
             Build Work Experience through Skills Challenges Program
@@ -116,9 +117,11 @@ const Home: FC = () => {
             working on Hands-on projects & hackathons from various businesses &
             organizations.
           </p>
-          <button className="bg-blue-700 text-white text-lg mt-6 py-3 px-8 rounded-md w-max">
-            Get Started
-          </button>
+          <Link href="/register">
+            <button className="bg-blue-700 text-white text-lg mt-6 py-3 px-8 rounded-md w-max">
+              Get Started
+            </button>
+          </Link>
         </div>
         <div className="flex md:w-1/2 h-max mt-8 md:mt-0 items-end gap-x-4 w-full">
           <Image
@@ -134,7 +137,7 @@ const Home: FC = () => {
         </div>
       </header>
       {/* Second Section */}
-      <section className="container mx-auto py-12 px-5 md:px-20">
+      <section className="container mx-auto py-12 md:px-12 px-6">
         <Heading
           title="Experience a New Way of Building"
           title2="Work Experience"
@@ -180,7 +183,7 @@ const Home: FC = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="container mx-auto mb-24 px-5">
+      <section className="container mx-auto mb-24 md:px-12 px-6">
         <div className="relative bg-primary overflow-hidden rounded-2xl text-white py-20 px-5 md:px-20 md:flex justify-between grid grid-cols-2 gap-y-4">
           <div className="absolute top-0 right-0 h-[20rem] aspect-square border-[3rem] rounded-full -translate-y-1/2 translate-x-1/3 border-white/20" />
           <div className="absolute top-0 left-0 h-[20rem] aspect-square border-[3rem] rounded-full translate-y-1/3 translate-x-1/3 border-white/20" />
@@ -209,7 +212,7 @@ const Home: FC = () => {
         className="px-4"
       />
 
-      <section className="flex flex-wrap gap-3 justify-center">
+      <section className="flex flex-wrap gap-3 justify-center md:px-12 px-6">
         {Array(2)
           .fill("")
           .map((item, index) => (
@@ -226,7 +229,7 @@ const Home: FC = () => {
             </button>
           ))}
       </section>
-      <section className="container flex flex-wrap gap-3 justify-center mx-auto py-2 md:px-6 mb-12 max-w-3xl">
+      <section className="container flex flex-wrap gap-3 justify-center mx-auto py-2 md:px-12 px-6 mb-12 max-w-3xl">
         {SkillChallenges.map((item, index) => (
           <button
             key={index}
@@ -242,7 +245,7 @@ const Home: FC = () => {
         ))}
       </section>
 
-      <section className="container mx-auto flex md:flex-row flex-col gap-4 bg-zinc-100 px-6 py-12 rounded-md">
+      <section className="container mx-auto flex md:flex-row flex-col gap-4 bg-zinc-100 md:px-12 px-6 py-12 rounded-md">
         <div className="md:w-1/2 w-full flex flex-col items-start gap-8 px-4 py-8">
           <div className="bg-white py-6 px-4 rounded-md w-max mb-4 mt-8">
             <span className="w-7 aspect-square rounded-full p-2 font-bold bg-black text-white">
@@ -265,7 +268,7 @@ const Home: FC = () => {
         </div>
       </section>
 
-      <nav className="w-full flex gap-4 justify-center py-8 mb-12">
+      <nav className="w-full flex gap-4 justify-center py-8 mb-12 md:px-12 px-6">
         {Array(4)
           .fill("")
           .map((item, index) => (
@@ -277,25 +280,30 @@ const Home: FC = () => {
             />
           ))}
       </nav>
-      <section className="container mx-auto px-5">
+      <section className="container mx-auto md:px-12 px-6">
         <Heading
           title="Explore Challenges & Hackathons"
           text="Join Skills Challenges Program to accelerate your career growth and become part of Africa's largest workforce of digital professionals."
         />
 
-        <div className="flex flex-wrap items-center justify-center gap-6 md:px-8">
+        <div className="flex flex-wrap items-center justify-center gap-6">
           {Array(3)
             .fill("")
             .map((_, index) => (
               <ChallengeCard key={index} {...challenges[index]} />
             ))}
         </div>
-
-        <button className="mt-12 mb-24 border border-blue-500 hover:bg-blue-600 hover:text-white !text-blue-600 font-semibold px-12 py-4 rounded-lg block mx-auto">
-          View More
-        </button>
+        <Link
+          href={`/login?redirect=${encodeURIComponent(
+            "/dashboard/challenges&hackathons"
+          )}`}
+        >
+          <button className="mt-12 mb-24 border border-blue-500 hover:bg-blue-600 hover:text-white !text-blue-600 font-semibold px-12 py-4 rounded-lg block mx-auto">
+            View More
+          </button>
+        </Link>
       </section>
-      <section className="container mx-auto w-full bg-zinc-100 px-4 py-12">
+      <section className="container mx-auto w-full bg-zinc-100 md:px-12 px-6 py-12">
         <Heading
           title="What else can I gain from participating"
           title2=" in Skills Challenges?"
@@ -325,8 +333,8 @@ const Home: FC = () => {
           </section>
         </section>
       </section>
-      <section className="container mx-auto py-16 px-4">
-        <h3 className="h3 font-bold mb-2 px-3">
+      <section className="container mx-auto py-16 md:px-12 px-6">
+        <h3 className="h3 font-bold mb-2 md:pr-3">
           Users are in Love with Skills <br className="max-md:hidden" />
           Challenges Program
         </h3>
@@ -343,7 +351,7 @@ const Home: FC = () => {
         </div>
       </section>
 
-      <section className="container mx-auto py-16 bg-zinc-100 px-4">
+      <section className="container mx-auto py-16 bg-zinc-100 md:px-12 px-6">
         <Heading title="How to Get Started" />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -412,7 +420,7 @@ const Home: FC = () => {
           </div>
         </div>
       </section>
-      <section className="container mx-auto w-full lg:p-16 md:p-12 p-6">
+      <section className="container mx-auto w-full lg:py-16 md:py-12 py-6 md:px-12 px-6">
         <div className="w-full bg-primary text-white rounded-2xl p-12 flex md:flex-row flex-col gap-12">
           <div className="md:w-2/5 w-full">
             <Image src={students} alt="students" className="w-full h-full" />
@@ -426,9 +434,15 @@ const Home: FC = () => {
               build an impressive portfolio and increase your chances to land
               job opportunities and celebrate your career growth.
             </p>
-            <button className="button bg-white text-primary py-4 px-12">
-              View Challenge
-            </button>
+            <Link
+              href={`/login?redirect=${encodeURIComponent(
+                "/dashboard/challenges&hackathons"
+              )}`}
+            >
+              <button className="button bg-white text-primary py-4 px-12">
+                View Challenge
+              </button>
+            </Link>
           </div>
         </div>
       </section>

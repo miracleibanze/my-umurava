@@ -42,21 +42,22 @@ const initialState: ChallengeState = {
   success: false,
 };
 
-// Fetch challenges
 export const fetchChallenges = createAsyncThunk(
   "challenge/fetchChallenges",
   async (_, { rejectWithValue }) => {
     try {
       console.log("fetching challenges");
       const response = await axiosInstance.get("/api/challenges");
-      return response.data || challenges;
+      return response.data;
     } catch (error: any) {
       console.log("fetching challenges failed");
-      return challenges; // Use static data if API fails
+      console.log(error);
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to fetch challenges"
+      );
     }
   }
 );
-
 // Create a new challenge
 export const createChallenge = createAsyncThunk(
   "challenge/createChallenge",

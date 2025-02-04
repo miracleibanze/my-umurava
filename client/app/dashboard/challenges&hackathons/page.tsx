@@ -7,13 +7,18 @@ import Link from "next/link";
 import ChallengeCard, {
   ChallengeCardSkeleton,
 } from "@components/challengeCard";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const Page: FC = () => {
+  const router = useRouter();
   const { challenges, loadingChallenges } = useSelector(
     (state: RootState) => state.challenge
   );
+  const { user } = useSelector((state: RootState) => state.user);
+  const searchParams = useSearchParams();
+  const filterIndex = searchParams.get("index") || 0;
 
-  const [filterIndex, setFilterIndex] = useState(0);
+  // const [filterIndex, setFilterIndex] = useState(0);
 
   const menu = [
     { name: "All", number: challenges?.length },
@@ -32,16 +37,20 @@ const Page: FC = () => {
   ];
 
   const handleFilter = (index: number) => {
-    setFilterIndex(index);
+    router.push(
+      index === 0
+        ? "/dashboard/challenges&hackathons"
+        : `/dashboard/challenges&hackathons?index=${index}`
+    );
   };
 
   const filteredChallenges = () => {
     switch (filterIndex) {
-      case 1:
+      case "1":
         return challenges.filter((c) => c.status === "completed");
-      case 2:
+      case "2":
         return challenges.filter((c) => c.status === "open");
-      case 3:
+      case "3":
         return challenges.filter((c) => c.status === "ongoing");
       default:
         return challenges;
@@ -55,11 +64,13 @@ const Page: FC = () => {
         Join a challenge or a hackathon to gain valuable experience.
       </p>
 
-      <div className="w-full flex items-center gap-3 flex-wrap">
+      <div className="w-full flex items-center gap-3 flex-wrap h-9">
         {menu.map((item, index) => (
           <button
-            className={`button border border-zinc-300 !py-1 !px-2 text-[11px] font-normal ${
-              index === filterIndex ? "bg-blue-100/50" : " bg-zinc-200/50"
+            className={`button border border-zinc-300 !py-1 h-full !px-2 text-[11px] flex items-center font-normal ${
+              index.toLocaleString() === filterIndex || index === filterIndex
+                ? "bg-blue-100/50"
+                : " bg-zinc-200/50"
             }`}
             key={index}
             onClick={() => handleFilter(index)}
@@ -67,20 +78,24 @@ const Page: FC = () => {
             <i className="fas fa-book mr-2"></i>
             <span>{item.name}</span>
             <span
-              className={`p-1 border border-zinc-300 rounded-full flex-0 h-10 w-10 aspect-square ml-3 ${
-                index === filterIndex && "bg-primary text-white"
+              className={`border border-zinc-300 rounded-full flex-0 h-5 flex items-center justify-center !aspect-square ml-3 ${
+                index.toLocaleString() === filterIndex || index === filterIndex
+                  ? "bg-primary text-white"
+                  : ""
               }`}
             >
               {item.number}
             </span>
           </button>
         ))}
-        <Link href="/dashboard/challenges&hackathons/create-new-challenge">
-          <button className="button !bg-primary text-[11px] text-white">
-            <i className="fas fa-plus mr-2"></i>
-            Create new
-          </button>
-        </Link>
+        {user?.role === "admin" && (
+          <Link href="/dashboard/challenges&hackathons/create-new-challenge">
+            <button className="button !bg-primary text-[11px] text-white">
+              <i className="fas fa-plus mr-2"></i>
+              Create new challenge
+            </button>
+          </Link>
+        )}
       </div>
 
       <div className="w-full flex flex-wrap gap-3 py-12 justify-items-center">

@@ -1,14 +1,20 @@
 "use client";
 
 import { useState, FC } from "react";
-import { Community } from "@redux/slices/communitySlice"; // Assuming you have this type
-import Heading from "./Heading";
+import { useDispatch } from "react-redux";
+import {
+  Community,
+  createCommunity,
+  updateCommunity,
+} from "@redux/slices/communitySlice";
+import { AppDispatch } from "@redux/store";
 
 interface CommunityFormProps {
   setIsCreateModalOpen: (data: boolean) => void;
-  onSubmit: (data: Community) => void;
-  initialData?: Community; // Added initialData prop
+  selected: boolean;
+  initialData?: Community;
 }
+
 // Placeholder function for image upload (Replace with actual API)
 const uploadImage = async (file: File): Promise<string> => {
   return new Promise((resolve) =>
@@ -18,9 +24,11 @@ const uploadImage = async (file: File): Promise<string> => {
 
 const CommunityForm: FC<CommunityFormProps> = ({
   setIsCreateModalOpen,
-  onSubmit,
+  selected,
   initialData,
 }) => {
+  const dispatch = useDispatch<AppDispatch>();
+
   const initialFormData: Community = {
     name: initialData?.name || "",
     description: initialData?.description || "",
@@ -40,22 +48,29 @@ const CommunityForm: FC<CommunityFormProps> = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleCreate = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSubmit(formData);
+    dispatch(createCommunity(formData));
+  };
+
+  const handleEdit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (initialData?._id) {
+      dispatch(updateCommunity({ id: initialData._id, updatedData: formData }));
+    }
   };
 
   return (
-    <div className="absolute inset-0 backdrop-brightness-50 z-[100] py-10">
+    <div className="fixed inset-0 bg-slate-800/30 backdrop-blur-sm z-[100] py-10">
       <form
-        onSubmit={handleSubmit}
+        onSubmit={selected ? handleEdit : handleCreate}
         className="space-y-4 bg-white p-5 shadow-md w-full max-w-md mx-auto max-h-full overflow-x-hidden"
       >
-        <div className="">
+        <div>
           <p className="body-1 font-semibold">Create a community</p>
           <p className="text-sm text-zinc-600 pr-4 mb-4">
             By creating a community, you are creating a space for those with
-            ambition in you category to engage in development activities.
+            ambition in your category to engage in development activities.
           </p>
         </div>
         <div>
@@ -110,6 +125,7 @@ const CommunityForm: FC<CommunityFormProps> = ({
 
         <div className="flex items-center gap-3">
           <button
+            type="button"
             className="bg-zinc-300 hover:bg-zinc-400 font-bold py-2 px-4 rounded"
             onClick={() => setIsCreateModalOpen(false)}
           >

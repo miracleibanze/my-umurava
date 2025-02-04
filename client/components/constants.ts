@@ -35,6 +35,47 @@ interface Participants {
 
 export const challenges: Challenge[] = [
   {
+    _id: "1jkhu888879788778dfffe9u89",
+    category: "Web Design",
+    title: "Design a Dashboard for SokoFund",
+    skills: ["UX Design", "Research", "User Flow", "Sketch", "Figma"],
+    difficulty: "Beginner",
+    deadline: "15 Days",
+    status: "ongoing",
+    description:
+      "Design a modern and user-friendly dashboard for SokoFund, a microfinance platform.",
+    duration: "15 Days",
+    brief:
+      "Design a responsive and user friendly website to alin to all customer of our platform",
+    prize: "$500 - $700",
+    email: "talent@umurava.africa",
+    participants: [
+      { name: "John Doe", role: "UI/UX Designer" },
+      { name: "Jane Smith", role: "Researcher" },
+    ],
+    tasks: [
+      "Research user needs and create personas",
+      "Create wireframes and user flow",
+      "Design high-fidelity mockups using Figma",
+    ],
+    deliverables: [
+      "Figma design files",
+      "Wireframes and user flow documentation",
+    ],
+    projectRequirements: [
+      "The dashboard must support multiple user roles (admin, investor, borrower).",
+      "Ensure accessibility standards are met (WCAG 2.1 compliance).",
+      "Implement a responsive design suitable for desktop and mobile.",
+      "Provide a clean and intuitive UI with a focus on usability.",
+    ],
+    projectDesign: [
+      "Blue and Green, following SokoFund's brand identity",
+      "Sans-serif fonts, preferably Inter or Roboto",
+      "Grid-based design with a sidebar navigation",
+    ],
+    tools: ["Figma", "Sketch", "Adobe XD"],
+  },
+  {
     _id: "1jkhu8888797887789u89",
     title: "Design a Dashboard for SokoFund",
     skills: ["UX Design", "Research", "User Flow", "Sketch", "Figma"],
@@ -240,50 +281,6 @@ export const challenges: Challenge[] = [
   },
 ];
 
-interface User {
-  userId: string;
-  name: string;
-  username: string;
-  email: string;
-  phoneNumber: string;
-  role: string;
-
-  profile: {
-    image: string;
-    // age: number;
-    // country: string;
-    // educationLevel: string;
-    // skills: string[];
-    // interests: string[];
-  };
-
-  // engagementStats: {
-  //   pointsEarned: number;
-  //   badges: string[];
-  //   completedChallenges: number;
-  //   feedbackReceived: object[];
-  // };
-
-  // umuravaIntegration: {
-  //   umuravaUserId: string;
-  //   linkedAccounts: {
-  //     github: string;
-  //     linkedin: string;
-  //   };
-  // };
-
-  // settings: {
-  //   preferredLanguage: string;
-  //   theme: string;
-  //   emailNotifications: boolean;
-  // };
-
-  // audit: {
-  //   createdAt: string;
-  //   updatedAt: string;
-  // };
-}
-
 export const myUser = {
   userId: "12345",
   names: "John Doe",
@@ -308,13 +305,6 @@ export const myUser = {
     pointsEarned: 250,
     badges: ["Top Performer", "Active Participant"],
     completedChallenges: 10,
-    //   feedbackReceived: [
-    //     {
-    //       from: "mentor1",
-    //       message: "Great work on the last project!",
-    //       date: "2025-01-15",
-    //     },
-    //   ],
   },
 
   umuravaIntegration: {
@@ -324,15 +314,101 @@ export const myUser = {
       linkedin: "https://linkedin.com/in/johndoe",
     },
   },
-
-  // settings: {
-  //   preferredLanguage: "English",
-  //   theme: "dark",
-  //   emailNotifications: true,
-  // },
-
-  // audit: {
-  //   createdAt: "2024-08-31",
-  //   updatedAt: "2025-01-27",
-  // },
 };
+
+export const communities = [
+  {
+    _id: "1",
+    name: "Tech Enthusiasts",
+    description: "A community for tech lovers and professionals.",
+    category: "tech",
+    visibility: "public",
+    members: 120,
+    createdAt: "2025-01-20T14:30:00Z",
+  },
+  {
+    _id: "2",
+    name: "Designers Hub",
+    description: "A platform for designers to connect and collaborate.",
+    category: "design",
+    visibility: "private",
+    members: 80,
+    createdAt: "2025-01-18T09:00:00Z",
+  },
+  {
+    _id: "3",
+    name: "Business Innovators",
+    description: "A group for entrepreneurs and business enthusiasts.",
+    category: "business",
+    visibility: "public",
+    members: 50,
+    createdAt: "2025-01-15T11:45:00Z",
+  },
+  {
+    _id: "4",
+    name: "Tech Startup Founders",
+    description: "A space for startup founders to share ideas and resources.",
+    category: "tech",
+    visibility: "private",
+    members: 45,
+    createdAt: "2025-01-10T16:00:00Z",
+  },
+];
+export const mockUsers = [
+  {
+    userId: "67890",
+    names: "Alice Smith",
+    email: "alice.smith@example.com",
+    password: "password123",
+    phoneNumber: "+250788654321",
+    role: "editor",
+    title: "Content Manager",
+    about:
+      "Passionate about creating high-quality content and managing editorial teams. Skilled in SEO and content strategy.",
+    profile: {
+      image: "",
+    },
+  },
+  {
+    userId: "54321",
+    names: "Michael Johnson",
+    email: "michael.johnson@example.com",
+    password: "mikepass456",
+    phoneNumber: "+250789987654",
+    role: "moderator",
+    title: "Community Manager",
+    about:
+      "Dedicated to building strong online communities and ensuring user engagement. Experienced in social media management.",
+    profile: {
+      image: "",
+    },
+  },
+  {
+    userId: "98765",
+    names: "Sophia Brown",
+    email: "sophia.brown@example.com",
+    password: "sophiasecret789",
+    phoneNumber: "+250787123987",
+    role: "admin",
+    title: "Project Manager",
+    about:
+      "Highly organized and results-driven project manager with experience leading teams and managing large-scale projects.",
+    profile: {
+      image: "",
+    },
+  },
+  {
+    userId: "11223",
+    names: "David Wilson",
+    email: "david.wilson@example.com",
+    password: "davidpass321",
+    phoneNumber: "+250786555666",
+    role: "user",
+    title: "Software Engineer",
+    about:
+      "Passionate about coding and software development. Enjoys working with the latest technologies and solving complex problems.",
+    profile: {
+      image: "",
+    },
+  },
+];

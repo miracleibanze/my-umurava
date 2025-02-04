@@ -11,24 +11,8 @@ interface link {
   name: string;
   href: string;
   icon: string;
+  whatsApp?: boolean;
 }
-const sidebarLinks: link[] = [
-  {
-    name: "Dashboard",
-    href: "/dashboard",
-    icon: "fas fa-home",
-  },
-  {
-    name: "Challenges & Hackathons",
-    href: "/dashboard/challenges&hackathons",
-    icon: "fas fa-print",
-  },
-  {
-    name: "Community",
-    href: "/dashboard/community",
-    icon: "fas fa-users",
-  },
-];
 const sidebarUtilities: link[] = [
   {
     name: "Setting",
@@ -60,12 +44,36 @@ const Sidebar: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
+  const sidebarLinks: link[] = [
+    {
+      name: "Dashboard",
+      href: "/dashboard",
+      icon: "fas fa-home",
+    },
+    {
+      name: "Challenges & Hackathons",
+      href: "/dashboard/challenges&hackathons",
+      icon: "fas fa-print",
+    },
+    {
+      href: user?.role === "admin" ? "/dashboard/community" : "?community=true",
+      name: "Community",
+      icon: "fas fa-users",
+      whatsApp: user?.role !== "admin" ? true : false,
+    },
+  ];
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState<boolean>(false);
+  const [isWhatsAppModelOpen, setIsWhatsAppModelOpen] =
+    useState<boolean>(false);
 
   const handleLogout = () => {
     dispatch(clearUser());
     setIsLogoutModalOpen(false);
     router.push("/login");
+  };
+
+  const handleWhatsApp = () => {
+    setIsWhatsAppModelOpen(true);
   };
 
   return (
@@ -87,6 +95,9 @@ const Sidebar: FC = () => {
                       index !== 0 &&
                       "!bg-white text-primary"
                 } mb-1 py-2 px-3 text-sm rounded-sm flex hover:bg-white/20`}
+                onClick={() => {
+                  if (item.whatsApp) setIsWhatsAppModelOpen(true);
+                }}
               >
                 <i className={`${item.icon} md:pr-2 max-md:text-xl`}></i>
                 <span className=" md:flex flex-col items-start hidden">
@@ -107,6 +118,9 @@ const Sidebar: FC = () => {
                       index !== 0 &&
                       "!bg-white/30"
                 } text-sm rounded-sm flex hover:bg-white/20 sm:hidden h-full items-center justify-center flex-col`}
+                onClick={() => {
+                  if (item.whatsApp && user?.role !== "admin") handleWhatsApp();
+                }}
               >
                 <i className={`${item.icon} text-2xl mb-2`}></i>
               </li>
@@ -163,8 +177,11 @@ const Sidebar: FC = () => {
             </Link>
           ))}
         </ul>
-        <div className="w-full sm:flex items-center gap-2 flex-wrap md:justify-end justify-center hidden">
-          <Link href="/dashboard/profile">
+        <div className="w-full sm:flex items-center gap-2 flex-wrap justify-between hidden">
+          <Link
+            href="/dashboard/profile"
+            className="flex-1 flex gap-1 items-center"
+          >
             {user?.profile?.image ? (
               <Image
                 src={user.profile.image} // Use the determined image source
@@ -174,15 +191,19 @@ const Sidebar: FC = () => {
                 className="h-10 !aspect-square rounded-full flex-0 object-cover"
               />
             ) : (
-              <i className="fas fa-user p-3 text-primary bg-white/50 rounded-full flex-0"></i>
+              <span className="flex items-center justify-center text-primary bg-white/50 h-8 w-8 rounded-full flex-0">
+                <i className="fas fa-user"></i>
+              </span>
             )}
-          </Link>
+            {/* </Link>
           <Link
             href="/dashboard/profile"
-            className="flex-1 w-full my-auto md:flex flex-col items-start hidden"
-          >
-            <p className="body-2 font-semibold">{user?.names}</p>
-            <p className="text-sm leading-none text-white/70">{user?.email}</p>
+            className="flex-1 my-auto md:flex flex-col items-start hidden bg-red-400"
+          > */}
+            <div className="">
+              <p className="body-2 font-semibold">{user?.names}</p>
+              <p className="text-sm leading-none text-white/70">{user?.role}</p>
+            </div>
           </Link>
 
           <div
@@ -222,6 +243,32 @@ const Sidebar: FC = () => {
                 Logout
               </button>
             </div>
+          </div>
+        </div>
+      )}
+      {isWhatsAppModelOpen && user?.role !== "admin" && (
+        <div className="fixed inset-0 flex items-center justify-center p-8">
+          <div
+            className="absolute inset-0 bg-black/50"
+            onClick={() => setIsWhatsAppModelOpen(false)}
+          />
+          <div className="w-full max-w-lg py-16 bg-white z-[100] flex flex-col items-center justify-center text-center rounded-xl">
+            <span className="bg-primary/30 h-20 w-20 rounded-full flex items-center justify-center text-primary mb-6">
+              <i className="fas fa-paper-plane text-4xl"></i>
+            </span>
+            <h5 className="h5 font-semibold text-zinc-800 mb-3">
+              Join our WhatsApp community
+            </h5>
+            <p className="body-1 text-zinc-600 leading-tight mb-4">
+              Get notified on the latest projects
+              <br />
+              and hackthons.
+            </p>
+            <a href="">
+              <button className="bg-primary text-white body-1 px-8 py-2 rounded-md">
+                Join
+              </button>
+            </a>
           </div>
         </div>
       )}

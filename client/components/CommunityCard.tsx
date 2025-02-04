@@ -8,6 +8,7 @@ interface CommunityCardProps {
   onEdit: (community: Community) => void;
   onDelete: (id: string) => void;
   onManageMembers: (id: string) => void;
+  isDeleting: boolean;
 }
 
 const CommunityCard: FC<CommunityCardProps> = ({
@@ -15,6 +16,7 @@ const CommunityCard: FC<CommunityCardProps> = ({
   onEdit,
   onDelete,
   onManageMembers,
+  isDeleting,
 }) => {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const toggleClick = () => {
@@ -67,7 +69,12 @@ const CommunityCard: FC<CommunityCardProps> = ({
           </button>
           <button
             onClick={() => onDelete(community._id!)}
-            className="button bg-red-600 hover:bg-red-500 text-white rounded px-4 mr-3"
+            className={`button rounded px-4 mr-3 ${
+              isDeleting
+                ? "bg-zinc-300"
+                : "bg-red-600 hover:bg-red-500 text-white"
+            }`}
+            disabled={isDeleting}
           >
             <i className="fas fa-trash mr-2"></i>Delete
           </button>

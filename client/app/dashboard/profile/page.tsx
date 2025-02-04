@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@redux/store";
 import { FC } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const page: FC = () => {
   const { user } = useSelector((state: RootState) => state.user);
@@ -35,9 +36,11 @@ const page: FC = () => {
           </p>
           <p className="text-sm text-gray-700">{user?.role || "role"}</p>
           <div className="min-w-full flex-1 flex justify-end">
-            <button className="button bg-zinc-100 hover:bg-zinc-200">
-              <i className="fas fa-edit"></i> edit profile
-            </button>
+            <Link className="w-max" href="/dashboard/profile/edit">
+              <button className="button bg-zinc-100 hover:bg-zinc-200">
+                <i className="fas fa-edit"></i> edit profile
+              </button>
+            </Link>
           </div>
         </div>
       </div>

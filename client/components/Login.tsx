@@ -1,18 +1,21 @@
 "use client";
 
-import Link from "@node_modules/next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import axiosInstance from "./features/axiosInstance";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "@redux/store";
-import { setUser } from "@redux/slices/userSlice";
-import { myUser } from "./constants";
+import { AppDispatch, RootState } from "@redux/store";
+import { loginUser } from "@redux/slices/userSlice";
+import { useSelector } from "react-redux";
 
 const Login = () => {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
+  const { status, user } = useSelector((state: RootState) => state.user);
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirect") || "/dashboard";
+  const isRedirect = searchParams.get("redirect");
   interface LoginForm {
     email: string;
     password: string;
@@ -43,6 +46,7 @@ const Login = () => {
   const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9-]+\.[a-z]{2,}$/;
 
   const handleSubmit = async (e?: React.FormEvent) => {
+    setIsLoggingIn(true);
     if (e) e.preventDefault(); // Prevent default form submission
 
     const trimmedEmail = formData.email.trim().toLowerCase();
@@ -64,28 +68,20 @@ const Login = () => {
     }
 
     try {
-      setIsLoggingIn(true);
-      const response = await axiosInstance.post("/api/login", {
-        email: formData.email,
-        password: formData.password,
-      });
-
-      const userData = response.data; // Assuming response contains user data
-      dispatch(setUser(userData)); // Store full user data in Redux
-
-      router.push("/dashboard");
+      dispatch(loginUser(formData));
     } catch (err) {
-      setError({
-        ...error,
-        data: "Problem Logging in, please try again later!",
-      });
       console.log(err);
-      dispatch(setUser(myUser)); // Store full user data in Redux
-      router.push("/dashboard");
     } finally {
       setIsLoggingIn(false);
     }
   };
+  useEffect(() => {
+    if (status === "succeeded" && user?.names) {
+      router.push(redirectTo);
+    } else if (status === "succeeded" && !user?.names) {
+      setError({ ...error, data: "invalid email or password" });
+    }
+  }, [status]);
 
   return (
     <>
@@ -94,7 +90,10 @@ const Login = () => {
         Sign in to continue to your UMURAVA dashboard,{" "}
         <br className="max-md:hidden" />
         or don't have an account?{" "}
-        <Link href="/register" className="text-primary">
+        <Link
+          href={isRedirect ? `/register?redirect=${isRedirect}` : "/register"}
+          className="text-primary"
+        >
           Sign up
         </Link>
       </p>
@@ -102,7 +101,6 @@ const Login = () => {
       {error.data !== "" && (
         <span className="text-sm text-red-600 px-4">{error.data}</span>
       )}
-
       <form onSubmit={handleSubmit} className="w-full flex flex-col ">
         <label
           htmlFor="email"

@@ -17,6 +17,7 @@ const Page: FC = () => {
   const viewDetails = !params?.[2]; // If there's no third param, show details view
 
   const { challenges } = useSelector((state: RootState) => state.challenge);
+  const { user } = useSelector((state: RootState) => state.user);
 
   const challenge = challenges.find((ch) => ch._id === challengeId?.toString());
   const Mockchallenge: Challenge = {
@@ -65,10 +66,18 @@ const Page: FC = () => {
     dispatch(fetchChallenges());
   }, [dispatch]);
 
-  return viewDetails ? (
-    <ChallengeDetails challenge={challenge} />
-  ) : (
-    <EditChallenge challenge={challenge} />
+  return (
+    <>
+      {viewDetails && (
+        <ChallengeDetails
+          challenge={challenge}
+          admin={user?.role === "admin" ? true : false}
+        />
+      )}
+      {!viewDetails && user?.role === "admin" && (
+        <EditChallenge challenge={challenge} />
+      )}
+    </>
   );
 };
 

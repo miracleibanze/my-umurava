@@ -1,3 +1,4 @@
+import { communities } from "@components/constants";
 import axiosInstance from "@components/features/axiosInstance";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -41,9 +42,10 @@ export const fetchCommunities = createAsyncThunk(
       const response = await axiosInstance.get("/api/communities");
       return response.data;
     } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data?.message || "Failed to fetch communities"
-      );
+      // return rejectWithValue(
+      //   error.response?.data?.message || "Failed to fetch communities"
+      // );
+      return communities;
     }
   }
 );
@@ -144,7 +146,7 @@ const communitySlice = createSlice({
       })
       // Delete community
       .addCase(deleteCommunity.fulfilled, (state, action) => {
-        state.communities = state.communities.filter(
+        state.communities = state.communities?.filter(
           (community) => community._id !== action.payload
         );
       });

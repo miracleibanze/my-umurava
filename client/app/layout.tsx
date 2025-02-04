@@ -11,9 +11,9 @@ import "./globals.css";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState, store } from "@redux/store";
 import { fetchChallenges } from "@redux/slices/challengeSlice";
-import { fetchAnalytics } from "@redux/slices/analyticsSlice";
 import { useDynamicTitle } from "@components/MetadataDecode";
-import { fetchUser, setUser, setUserId } from "@redux/slices/userSlice";
+import { fetchTalents } from "@redux/slices/talentsSlice";
+import { setUser, User } from "@redux/slices/userSlice";
 
 export default function RootLayout({
   children,
@@ -42,22 +42,39 @@ function MainLayout({ children }: { children: React.ReactNode }) {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
-  const userId = useSelector((state: RootState) => state.user.user?.userId);
+  const user = useSelector((state: RootState) => state.user.user);
+  const userStatus = useSelector((state: RootState) => state.user.status);
   const pathname = usePathname();
 
+  // Check localStorage for user on initial load
   useEffect(() => {
-    const storedUserId = localStorage.getItem("userId");
     const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      dispatch(setUser(JSON.parse(storedUser)));
-    } else if (storedUserId) {
-      dispatch(setUserId(storedUserId));
-      dispatch(fetchUser(storedUserId)); // Fetch user data
-    } else {
-      router.push("/login"); // Redirect to login if no userId
+
+    // Check if storedUser is a valid JSON string
+    if (storedUser && storedUser !== "undefined") {
+      try {
+        const parsedUser = JSON.parse(storedUser) as User;
+        dispatch(setUser(parsedUser)); // Assign user from localStorage to Redux store
+      } catch (error) {
+        console.error("Failed to parse user from localStorage:", error);
+        localStorage.removeItem("user"); // Remove invalid data from localStorage
+      }
     }
+  }, [dispatch]);
+
+  // Redirect logic
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (pathname.startsWith("/dashboard") && !user?.names && !storedUser) {
+      const redirectUrl = encodeURIComponent(pathname);
+      router.push(`/login?redirect=${redirectUrl}`);
+    }
+  }, [user, pathname, router]);
+
+  // Fetch talents and challenges
+  useEffect(() => {
+    dispatch(fetchTalents());
     dispatch(fetchChallenges());
-    dispatch(fetchAnalytics());
   }, [dispatch]);
 
   const showNavbar =
