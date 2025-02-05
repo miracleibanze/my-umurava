@@ -1,7 +1,7 @@
 "use client";
 
 import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store"; // Make sure this path is correct
+import { RootState } from "@/redux/store";
 import { FC, useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -11,7 +11,7 @@ import Link from "next/link";
 const DashboardNavbar: FC = () => {
   const pathname = usePathname();
 
-  const { user, status, error } = useSelector((state: RootState) => state.user); // Accessing user data
+  const { user, status, error } = useSelector((state: RootState) => state.user);
   const [isSearching, setIsSearching] = useState<boolean>(false);
 
   return (

@@ -47,7 +47,7 @@ const Register: FC = () => {
   const handleData = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const { name, value } = e.target; // Extract name and value directly
+    const { name, value } = e.target;
 
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -70,7 +70,7 @@ const Register: FC = () => {
   const handleRegister = async () => {
     setIsRegistering(true);
     try {
-      dispatch(registerUser(formData)); // Store full user data in Redux
+      dispatch(registerUser(formData));
     } catch (error) {
       console.error("Registration failed", error);
     } finally {

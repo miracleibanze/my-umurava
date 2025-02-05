@@ -11,10 +11,10 @@ import { useDispatch } from "react-redux";
 
 const Page: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { params } = useParams() as { params?: string[] }; // Explicitly type as an array
+  const { params } = useParams() as { params?: string[] };
 
-  const challengeId = params?.[1] || ""; // Get challenge ID safely
-  const viewDetails = !params?.[2]; // If there's no third param, show details view
+  const challengeId = params?.[1] || "";
+  const viewDetails = !params?.[2];
 
   const { challenges } = useSelector((state: RootState) => state.challenge);
   const { user } = useSelector((state: RootState) => state.user);

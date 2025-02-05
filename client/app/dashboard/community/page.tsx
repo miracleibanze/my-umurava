@@ -95,7 +95,7 @@ const Page: FC = () => {
                 setIsCreateModalOpen(true);
               }}
               onDelete={() => handleDelete(community._id!)}
-              onManageMembers={() => handleManageMembers(community)} // Add onManageMembers prop
+              onManageMembers={() => handleManageMembers(community)}
               isDeleting={isDeleting}
             />
           ))}
@@ -155,7 +155,7 @@ const ListOfMembers: FC<{
             community.listOfMembers?.map((item) => (
               <Link
                 className="w-full px-3 py-2 border-b hover:bg-zinc-100 flex gap-2"
-                href={item.userId}
+                href={item._id}
               >
                 <div className="h-12 w-12 border bg-zinc-100">
                   <img

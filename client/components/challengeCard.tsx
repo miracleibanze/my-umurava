@@ -38,7 +38,7 @@ export const ChallengeCardSkeleton: FC = () => (
 interface Challenge {
   _id?: string;
   title?: string;
-  status?: "open" | "ongoing" | "completed"; // From Redux
+  status?: "open" | "ongoing" | "completed";
   skills?: string[];
   difficulty?: string;
   deadline?: string;

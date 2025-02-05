@@ -58,7 +58,7 @@ export const fetchChallenges = createAsyncThunk(
     }
   }
 );
-// Create a new challenge
+
 export const createChallenge = createAsyncThunk(
   "challenge/createChallenge",
   async (challengeData: Challenge, { rejectWithValue }) => {
@@ -76,7 +76,6 @@ export const createChallenge = createAsyncThunk(
   }
 );
 
-// Edit an existing challenge
 export const editChallenge = createAsyncThunk(
   "challenge/editChallenge",
   async (
@@ -106,7 +105,7 @@ const challengeSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Fetch Challenges
+
       .addCase(fetchChallenges.pending, (state) => {
         state.loadingChallenges = true;
         state.error = null;
@@ -120,7 +119,6 @@ const challengeSlice = createSlice({
         state.error = action.payload as string;
       })
 
-      // Create Challenge
       .addCase(createChallenge.pending, (state) => {
         state.loadingChallenges = true;
         state.success = false;
@@ -136,7 +134,6 @@ const challengeSlice = createSlice({
         state.error = action.payload as string;
       })
 
-      // Edit Challenge
       .addCase(editChallenge.pending, (state) => {
         state.loadingChallenges = true;
         state.error = null;

@@ -18,8 +18,6 @@ const Page: FC = () => {
   const searchParams = useSearchParams();
   const filterIndex = searchParams.get("index") || 0;
 
-  // const [filterIndex, setFilterIndex] = useState(0);
-
   const menu = [
     { name: "All", number: challenges?.length },
     {

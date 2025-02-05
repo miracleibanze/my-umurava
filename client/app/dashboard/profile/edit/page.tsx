@@ -50,7 +50,7 @@ const Page: FC = () => {
       },
 
       umuravaIntegration: {
-        umuravaUserId: "",
+        umurava_id: "",
         linkedAccounts: {
           github: "",
           linkedin: "",
@@ -127,7 +127,7 @@ const Page: FC = () => {
       const response = await dispatch(updateUser(formData));
 
       response.payload && router.push("/dashboard/profile");
-      // alert("User details updated successfully!");
+      
     } catch (error) {
       console.error("Error updating user:", error);
       alert("Failed to update user details. Please try again.");

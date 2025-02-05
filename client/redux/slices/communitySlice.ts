@@ -14,7 +14,7 @@ export interface Community {
       names: string;
       image: string;
       title: string;
-      userId: string;
+      _id: string;
     }
   ];
   createdAt?: string;
@@ -34,7 +34,6 @@ const initialState: CommunityState = {
   success: false,
 };
 
-// Fetch all communities
 export const fetchCommunities = createAsyncThunk(
   "community/fetchCommunities",
   async (_, { rejectWithValue }) => {
@@ -42,15 +41,13 @@ export const fetchCommunities = createAsyncThunk(
       const response = await axiosInstance.get("/api/communities");
       return response.data;
     } catch (error: any) {
-      // return rejectWithValue(
-      //   error.response?.data?.message || "Failed to fetch communities"
-      // );
-      return communities;
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to fetch communities"
+      );
     }
   }
 );
 
-// Create a new community
 export const createCommunity = createAsyncThunk(
   "community/createCommunity",
   async (communityData: Community, { rejectWithValue }) => {
@@ -68,7 +65,6 @@ export const createCommunity = createAsyncThunk(
   }
 );
 
-// Update a community
 export const updateCommunity = createAsyncThunk(
   "community/updateCommunity",
   async (
@@ -89,7 +85,6 @@ export const updateCommunity = createAsyncThunk(
   }
 );
 
-// Delete a community
 export const deleteCommunity = createAsyncThunk(
   "community/deleteCommunity",
   async (id: string, { rejectWithValue }) => {
@@ -110,7 +105,7 @@ const communitySlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Fetch communities
+
       .addCase(fetchCommunities.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -123,7 +118,7 @@ const communitySlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
-      // Create community
+
       .addCase(createCommunity.pending, (state) => {
         state.loading = true;
         state.success = false;
@@ -138,13 +133,13 @@ const communitySlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
-      // Update community
+
       .addCase(updateCommunity.fulfilled, (state, action) => {
         state.communities = state.communities.map((community) =>
           community._id === action.payload._id ? action.payload : community
         );
       })
-      // Delete community
+
       .addCase(deleteCommunity.fulfilled, (state, action) => {
         state.communities = state.communities?.filter(
           (community) => community._id !== action.payload

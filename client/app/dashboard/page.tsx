@@ -4,12 +4,12 @@ import { useSelector } from "react-redux";
 import ChallengeCard, {
   ChallengeCardSkeleton,
 } from "@components/challengeCard";
-import { RootState } from "@redux/store"; // Importing AppDispatch
+import { RootState } from "@redux/store";
 import { FC } from "react";
 import Link from "next/link";
 
 const Page: FC = () => {
-  const { user, status, error } = useSelector((state: RootState) => state.user); // Accessing user, status, and error
+  const { user, status, error } = useSelector((state: RootState) => state.user);
 
   const challenges = useSelector(
     (state: RootState) => state.challenge?.challenges

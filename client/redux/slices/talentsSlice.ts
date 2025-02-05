@@ -1,51 +1,33 @@
 import { mockUsers } from "@components/constants";
 import axiosInstance from "@components/features/axiosInstance";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { User } from "./userSlice";
 
-interface UserProfile {
-  image: string; // Base64-encoded image or image URL
-}
 
-export interface User {
-  userId: string;
-  names: string;
-  email: string;
-  password: string;
-  phoneNumber: string;
-  role: "admin" | "editor" | "moderator" | "user"; // Use a union for fixed roles
-  title: string;
-  about: string;
-  profile?: UserProfile;
-}
-
-// Define the async thunk to fetch all talents
 export const fetchTalents = createAsyncThunk(
   "talents/fetchAll",
   async (_, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get("/api/talents");
-      return response.data; // Assuming response.data is an array of talent objects
+      return response.data;
     } catch (error: any) {
-      // return rejectWithValue(error.response?.data || "Failed to fetch talents");
-      return mockUsers;
+      return rejectWithValue(error.response?.data || "Failed to fetch talents");
     }
   }
 );
 
-// Initial state
 interface TalentState {
   talents: User[];
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
 }
-// Initial state
+
 const initialState: TalentState = {
   talents: [],
-  status: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
+  status: "idle",
   error: null as string | null,
 };
 
-// Create the slice
 const talentsSlice = createSlice({
   name: "talents",
   initialState,

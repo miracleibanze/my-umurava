@@ -46,23 +46,20 @@ function MainLayout({ children }: { children: React.ReactNode }) {
   const userStatus = useSelector((state: RootState) => state.user.status);
   const pathname = usePathname();
 
-  // Check localStorage for user on initial load
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
 
-    // Check if storedUser is a valid JSON string
     if (storedUser && storedUser !== "undefined") {
       try {
         const parsedUser = JSON.parse(storedUser) as User;
-        dispatch(setUser(parsedUser)); // Assign user from localStorage to Redux store
+        dispatch(setUser(parsedUser));
       } catch (error) {
         console.error("Failed to parse user from localStorage:", error);
-        localStorage.removeItem("user"); // Remove invalid data from localStorage
+        localStorage.removeItem("user");
       }
     }
   }, [dispatch]);
 
-  // Redirect logic
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (pathname.startsWith("/dashboard") && !user?.names && !storedUser) {
@@ -71,7 +68,6 @@ function MainLayout({ children }: { children: React.ReactNode }) {
     }
   }, [user, pathname, router]);
 
-  // Fetch talents and challenges
   useEffect(() => {
     dispatch(fetchTalents());
     dispatch(fetchChallenges());

@@ -3,10 +3,6 @@
 import GoBack from "@components/Goback";
 import { useParams } from "next/navigation";
 
-// export const metadata = {
-//   title: "Challenge | Umurava platform",
-//   description: "Umurava platform",
-// };
 type Params = {
   params: string[];
 };

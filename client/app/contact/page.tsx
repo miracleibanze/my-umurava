@@ -48,7 +48,7 @@ const ContactPage: FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     submitMessageForm(formData);
-    // Handle form submission logic (e.g., send data to API)
+
     alert("Your message has been sent!");
   };
 

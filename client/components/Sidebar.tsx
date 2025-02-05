@@ -38,7 +38,7 @@ interface LinkType {
 }
 
 const Sidebar: FC = () => {
-  const { user } = useSelector((state: RootState) => state.user); // Accessing user, status, and error
+  const { user } = useSelector((state: RootState) => state.user);
 
   const pathname = usePathname();
   const dispatch = useDispatch<AppDispatch>();
@@ -129,9 +129,9 @@ const Sidebar: FC = () => {
           <div className="w-full h-full flex items-center justify-center">
             {user?.profile?.image ? (
               <Image
-                src={user.profile.image} // Use the determined image source
+                src={user.profile.image}
                 alt="profile image"
-                width={40} // Set appropriate width and height
+                width={40}
                 height={40}
                 className="h-10 !aspect-square rounded-full flex-0 object-cover"
               />
@@ -184,9 +184,9 @@ const Sidebar: FC = () => {
           >
             {user?.profile?.image ? (
               <Image
-                src={user.profile.image} // Use the determined image source
+                src={user.profile.image}
                 alt="profile image"
-                width={40} // Set appropriate width and height
+                width={40}
                 height={40}
                 className="h-10 !aspect-square rounded-full flex-0 object-cover"
               />

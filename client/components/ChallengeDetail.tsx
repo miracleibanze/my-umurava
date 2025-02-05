@@ -2,7 +2,7 @@
 
 import { FC } from "react";
 import Image from "next/image";
-import { umurava } from "@public"; // Ensure the correct import
+import { umurava } from "@public";
 import Link from "next/link";
 import { Challenge } from "@redux/slices/challengeSlice";
 

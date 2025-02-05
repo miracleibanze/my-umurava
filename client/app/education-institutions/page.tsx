@@ -73,7 +73,7 @@ const logos: PartnerLogo[] = [
   { src: CIBA, alt: "CIB Logo" },
   { src: Ared, alt: "ARED Logo" },
   { src: IGIHE_LOGO, alt: "IGIHE Logo" },
-  { src: KeplerLogo, alt: "Kepler Logo" }, // Duplicate for demonstration
+  { src: KeplerLogo, alt: "Kepler Logo" },
   { src: SokoFund, alt: "SokoFund Logo" },
 ];
 

@@ -5,7 +5,7 @@ export function useDynamicTitle() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const segments = pathname.split("/").filter(Boolean); // Remove empty strings
+    const segments = pathname.split("/").filter(Boolean);
     let title = "Umurava Platform | Build Work Experience";
 
     if (segments.length >= 2) {

@@ -1,4 +1,3 @@
-// lib/axiosInstance.ts
 import axios from "axios";
 
 const axiosInstance = axios.create({
@@ -6,13 +5,11 @@ const axiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  timeout: 10000, // Optional: 10 seconds timeout
+  timeout: 10000,
 });
 
-// Add a request interceptor to attach the token
 axiosInstance.interceptors.request.use(
   (config) => {
-    // Retrieve the token (assuming it's stored in localStorage)
     const token =
       typeof window !== "undefined" ? localStorage.getItem("token") : null;
 

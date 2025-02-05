@@ -2,12 +2,11 @@ import axiosInstance from "@components/features/axiosInstance";
 import axios from "axios";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 
-// Define the type for the user
 export interface User {
   _id?: string;
   names: string;
   email: string;
-  password?: string; // Optional for update
+  password?: string;
   phoneNumber: string;
   role: string;
   title: string;
@@ -38,7 +37,7 @@ export interface User {
     feedbackReceived?: object[];
   };
   umuravaIntegration?: {
-    umuravaUserId?: string;
+    umurava_id?: string;
     linkedAccounts?: {
       github?: string;
       linkedin?: string;
@@ -50,7 +49,6 @@ export interface User {
   };
 }
 
-// Initial state
 interface UserState {
   user: User | null;
   status: "idle" | "loading" | "succeeded" | "failed";
@@ -63,7 +61,6 @@ const initialState: UserState = {
   error: null,
 };
 
-// **Thunk for registering a new user**
 export const registerUser = createAsyncThunk(
   "user/registerUser",
   async (newUser: User, { rejectWithValue }) => {
@@ -80,7 +77,6 @@ export const registerUser = createAsyncThunk(
   }
 );
 
-// **Thunk for logging in a user**
 export const loginUser = createAsyncThunk(
   "user/loginUser",
   async (
@@ -101,7 +97,6 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-// **Thunk for updating a user**
 export const updateUser = createAsyncThunk(
   "user/updateUser",
   async (updatedUser: User, { rejectWithValue }) => {
@@ -125,12 +120,12 @@ const userSlice = createSlice({
   reducers: {
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
-      localStorage.setItem("user", JSON.stringify(action.payload)); // Save user to localStorage
+      localStorage.setItem("user", JSON.stringify(action.payload));
     },
     clearUser: (state) => {
       state.user = null;
       localStorage.removeItem("token");
-      localStorage.removeItem("user"); // Remove user from localStorage
+      localStorage.removeItem("user");
     },
   },
   extraReducers: (builder) => {
@@ -141,7 +136,7 @@ const userSlice = createSlice({
       .addCase(registerUser.fulfilled, (state, action: PayloadAction<User>) => {
         state.status = "succeeded";
         state.user = action.payload;
-        localStorage.setItem("user", JSON.stringify(action.payload)); // Save user to localStorage
+        localStorage.setItem("user", JSON.stringify(action.payload));
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.status = "failed";
@@ -153,7 +148,7 @@ const userSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action: PayloadAction<User>) => {
         state.status = "succeeded";
         state.user = action.payload;
-        localStorage.setItem("user", JSON.stringify(action.payload)); // Save user to localStorage
+        localStorage.setItem("user", JSON.stringify(action.payload));
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.status = "failed";
@@ -165,7 +160,7 @@ const userSlice = createSlice({
       .addCase(updateUser.fulfilled, (state, action: PayloadAction<User>) => {
         state.status = "succeeded";
         state.user = action.payload;
-        localStorage.setItem("user", JSON.stringify(action.payload)); // Save updated user to localStorage
+        localStorage.setItem("user", JSON.stringify(action.payload));
       })
       .addCase(updateUser.rejected, (state, action) => {
         state.status = "failed";
@@ -175,4 +170,4 @@ const userSlice = createSlice({
 });
 
 export const { setUser, clearUser } = userSlice.actions;
-export default userSlice.reducer
+export default userSlice.reducer;

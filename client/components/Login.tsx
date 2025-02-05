@@ -47,7 +47,7 @@ const Login = () => {
 
   const handleSubmit = async (e?: React.FormEvent) => {
     setIsLoggingIn(true);
-    if (e) e.preventDefault(); // Prevent default form submission
+    if (e) e.preventDefault();
 
     const trimmedEmail = formData.email.trim().toLowerCase();
 

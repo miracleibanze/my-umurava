@@ -282,7 +282,7 @@ export const challenges: Challenge[] = [
 ];
 
 export const myUser = {
-  userId: "12345",
+  _id: "12345",
   names: "John Doe",
   email: "johndoe@example.com",
   password: "12345",
@@ -308,7 +308,7 @@ export const myUser = {
   },
 
   umuravaIntegration: {
-    umuravaUserId: "u12345",
+    umurava_id: "u12345",
     linkedAccounts: {
       github: "https://github.com/johndoe",
       linkedin: "https://linkedin.com/in/johndoe",
@@ -356,7 +356,7 @@ export const communities = [
 ];
 export const mockUsers = [
   {
-    userId: "67890",
+    _id: "67890",
     names: "Alice Smith",
     email: "alice.smith@example.com",
     password: "password123",
@@ -370,7 +370,7 @@ export const mockUsers = [
     },
   },
   {
-    userId: "54321",
+    _id: "54321",
     names: "Michael Johnson",
     email: "michael.johnson@example.com",
     password: "mikepass456",
@@ -384,7 +384,7 @@ export const mockUsers = [
     },
   },
   {
-    userId: "98765",
+    _id: "98765",
     names: "Sophia Brown",
     email: "sophia.brown@example.com",
     password: "sophiasecret789",
@@ -398,7 +398,7 @@ export const mockUsers = [
     },
   },
   {
-    userId: "11223",
+    _id: "11223",
     names: "David Wilson",
     email: "david.wilson@example.com",
     password: "davidpass321",

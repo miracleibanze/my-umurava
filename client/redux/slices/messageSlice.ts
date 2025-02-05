@@ -1,9 +1,6 @@
-// store/messageSlice.ts
-
 import axiosInstance from "@components/features/axiosInstance";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 
-// Define the shape of the form data
 export interface MessageState {
   name: string;
   email: string;
@@ -20,7 +17,6 @@ export interface MessageState {
   additionalInfo: string;
 }
 
-// Initial state for the form data
 const initialState: MessageState = {
   name: "",
   email: "",
@@ -37,7 +33,6 @@ const initialState: MessageState = {
   additionalInfo: "",
 };
 
-// Define an async thunk to handle the API request
 export const submitMessageForm = createAsyncThunk(
   "message/submitMessageForm",
   async (messageData: MessageState, { rejectWithValue }) => {

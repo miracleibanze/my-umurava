@@ -5,18 +5,28 @@ import { RootState } from "@redux/store";
 import { FC } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { User } from "@redux/slices/userSlice";
+import { useRouter } from "next/navigation";
 
-const page: FC = () => {
+const Profile: FC<{ selectedUser: User }> = ({ selectedUser }) => {
+  const router = useRouter();
   const { user } = useSelector((state: RootState) => state.user);
-
+  const person = selectedUser || user;
   return (
     <section className="w-full p-6 bg-zinc-100">
-      {/* Profile Header */}
+      {selectedUser && (
+        <button
+          className="button bg-zinc-200 hover:bg-zinc-300 mb-3"
+          onClick={() => router.back()}
+        >
+          <i className="fas fa-arrow-left"></i>
+        </button>
+      )}
       <div className="bg-white shadow-md rounded-2xl p-6 flex mb-4">
         <div className="flex items-center justify-center px-3">
-          {user?.profile?.image ? (
+          {person?.profile?.image ? (
             <Image
-              src={user?.profile?.image || "/default-avatar.png"}
+              src={person?.profile?.image || "/default-avatar.png"}
               alt="Profile"
               width={300}
               height={500}
@@ -28,40 +38,46 @@ const page: FC = () => {
         </div>
 
         <div className="px-3 w-full flex-1">
-          <h3 className="h3 font-bold">{user?.names || "Names"}</h3>
-          <p className="body-2 !text-primary">{user?.title || "my title"}</p>
-          <p className="text-sm text-gray-700">{user?.email || "Your email"}</p>
+          <h3 className="h3 font-bold">{person?.names || "Names"}</h3>
+          <p className="body-2 !text-primary">{person?.title || "my title"}</p>
           <p className="text-sm text-gray-700">
-            {user?.phoneNumber || "number"}
+            {person?.email || "Your email"}
           </p>
-          <p className="text-sm text-gray-700">{user?.role || "role"}</p>
-          <div className="min-w-full flex-1 flex justify-end">
-            <Link className="w-max" href="/dashboard/profile/edit">
-              <button className="button bg-zinc-100 hover:bg-zinc-200">
-                <i className="fas fa-edit"></i> edit profile
-              </button>
-            </Link>
-          </div>
+          <p className="text-sm text-gray-700">
+            {person?.phoneNumber || "number"}
+          </p>
+          <p className="text-sm text-gray-700">{person?.role || "role"}</p>
+          {!selectedUser && (
+            <div className="min-w-full flex-1 flex justify-end">
+              <Link className="w-max" href="/dashboard/profile/edit">
+                <button className="button bg-zinc-100 hover:bg-zinc-200">
+                  <i className="fas fa-edit"></i> edit profile
+                </button>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
 
       <div className="flex gap-3">
         <div className="w-full min-w-sm max-w-md">
           <strong className="block">About:</strong>
-          <p className="max-w-md px-2 mb-4">{user?.about || "___"}</p>
+          <p className="max-w-md px-2 mb-4">{person?.about || "___"}</p>
           <strong className="block">Skills:</strong>
           <p className="px-2 mb-4">
-            {user?.profile?.skills?.join(", ") || "___"}
+            {person?.profile?.skills?.join(", ") || "___"}
           </p>
         </div>
         <div className="p-4 mt-2">
           <strong className="block">Country:</strong>
-          <p className="px-2 mb-4">{user?.profile?.country || "___"}</p>
+          <p className="px-2 mb-4">{person?.profile?.country || "___"}</p>
           <strong className="block">Education:</strong>
-          <p className="px-2 mb-4">{user?.profile?.educationLevel || "___"}</p>
+          <p className="px-2 mb-4">
+            {person?.profile?.educationLevel || "___"}
+          </p>
           <strong className="block">Interests:</strong>
           <p className="px-2 mb-4">
-            {user?.profile?.interests?.join(", ") || "___"}
+            {person?.profile?.interests?.join(", ") || "___"}
           </p>
         </div>
       </div>
@@ -70,15 +86,15 @@ const page: FC = () => {
       <div className="p-4 border-t mt-2">
         <p>
           <strong>Points Earned:</strong>{" "}
-          {user?.engagementStats?.pointsEarned || 0}
+          {person?.engagementStats?.pointsEarned || 0}
         </p>
         <p>
           <strong>Completed Challenges:</strong>{" "}
-          {user?.engagementStats?.completedChallenges || 0}
+          {person?.engagementStats?.completedChallenges || 0}
         </p>
         <div className="flex flex-wrap gap-2 mt-2">
-          {user?.engagementStats?.badges?.length ? (
-            user?.engagementStats?.badges.map((badge, index) => (
+          {person?.engagementStats?.badges?.length ? (
+            person?.engagementStats?.badges.map((badge, index) => (
               <span
                 key={index}
                 className="px-3 py-1 text-sm bg-gray-200 rounded-lg"
@@ -99,18 +115,18 @@ const page: FC = () => {
           <p className="text-sm text-gray-500">Connected profiles</p>
         </div>
         <div className="flex gap-4">
-          {user?.umuravaIntegration?.linkedAccounts?.github && (
+          {person?.umuravaIntegration?.linkedAccounts?.github && (
             <a
-              href={user?.umuravaIntegration?.linkedAccounts?.github}
+              href={person?.umuravaIntegration?.linkedAccounts?.github}
               target="_blank"
               rel="noopener noreferrer"
             >
               <i className="fab fa-github text-gray-700 hover:text-black text-2xl"></i>
             </a>
           )}
-          {user?.umuravaIntegration?.linkedAccounts?.linkedin && (
+          {person?.umuravaIntegration?.linkedAccounts?.linkedin && (
             <a
-              href={user?.umuravaIntegration?.linkedAccounts?.linkedin}
+              href={person?.umuravaIntegration?.linkedAccounts?.linkedin}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -123,4 +139,4 @@ const page: FC = () => {
   );
 };
 
-export default page;
+export default Profile;
