@@ -1,20 +1,26 @@
 "use client";
 
-import { useSelector } from "react-redux";
-import { RootState } from "@redux/store";
 import { FC } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { User } from "@redux/slices/userSlice";
 import { useRouter } from "next/navigation";
+import { User } from "@redux/slices/userSlice";
+import { useSelector } from "@node_modules/@types/react-redux";
+import { RootState } from "@redux/store";
+
 interface ProfileProps {
-  selectedUser?: User;
+  selectedUser?: User; // Optional prop, will be passed in some cases
 }
 
 const Profile: FC<ProfileProps> = ({ selectedUser }) => {
   const router = useRouter();
   const { user } = useSelector((state: RootState) => state.user);
-  const person = selectedUser || user;
+
+  const person = selectedUser || user; // If no selectedUser, fall back to an empty object
+
+  // Fallback if selectedUser is not passed in the profile component.
+  if (!person) return <div>No user data available</div>;
+
   return (
     <section className="w-full p-6 bg-zinc-100">
       {selectedUser && (
@@ -54,7 +60,7 @@ const Profile: FC<ProfileProps> = ({ selectedUser }) => {
             <div className="min-w-full flex-1 flex justify-end">
               <Link className="w-max" href="/dashboard/profile/edit">
                 <button className="button bg-zinc-100 hover:bg-zinc-200">
-                  <i className="fas fa-edit"></i> edit profile
+                  <i className="fas fa-edit"></i> Edit Profile
                 </button>
               </Link>
             </div>
@@ -85,7 +91,6 @@ const Profile: FC<ProfileProps> = ({ selectedUser }) => {
         </div>
       </div>
 
-      {/* Engagement Stats */}
       <div className="p-4 border-t mt-2">
         <p>
           <strong>Points Earned:</strong>{" "}
@@ -111,7 +116,6 @@ const Profile: FC<ProfileProps> = ({ selectedUser }) => {
         </div>
       </div>
 
-      {/* Linked Accounts */}
       <div className="bg-white shadow-md rounded-2xl p-4 mt-6 flex items-center justify-between">
         <div>
           <h3 className="text-lg font-semibold">Linked Accounts</h3>
@@ -120,7 +124,7 @@ const Profile: FC<ProfileProps> = ({ selectedUser }) => {
         <div className="flex gap-4">
           {person?.umuravaIntegration?.linkedAccounts?.github && (
             <a
-              href={person?.umuravaIntegration?.linkedAccounts?.github}
+              href={person.umuravaIntegration.linkedAccounts.github}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -129,7 +133,7 @@ const Profile: FC<ProfileProps> = ({ selectedUser }) => {
           )}
           {person?.umuravaIntegration?.linkedAccounts?.linkedin && (
             <a
-              href={person?.umuravaIntegration?.linkedAccounts?.linkedin}
+              href={person.umuravaIntegration.linkedAccounts.linkedin}
               target="_blank"
               rel="noopener noreferrer"
             >
