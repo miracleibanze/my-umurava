@@ -7,8 +7,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { User } from "@redux/slices/userSlice";
 import { useRouter } from "next/navigation";
+interface ProfileProps {
+  selectedUser: User;
+}
 
-const Profile: FC<{ selectedUser: User }> = ({ selectedUser }) => {
+const Profile: FC<ProfileProps> = ({ selectedUser }) => {
   const router = useRouter();
   const { user } = useSelector((state: RootState) => state.user);
   const person = selectedUser || user;
