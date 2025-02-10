@@ -16,7 +16,7 @@ const Profile: FC<ProfileProps> = ({ selectedUser }) => {
   const router = useRouter();
   const { user } = useSelector((state: RootState) => state.user);
 
-  const person = selectedUser || user; // If no selectedUser, fall back to an empty object
+  const person = selectedUser || user; // If no selectedUser, fall back to the Redux state
 
   // Fallback if selectedUser is not passed in the profile component.
   if (!person) return <div>No user data available</div>;
@@ -146,4 +146,5 @@ const Profile: FC<ProfileProps> = ({ selectedUser }) => {
   );
 };
 
+// Exporting component for use in a page.
 export default Profile;
