@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { User } from "@redux/slices/userSlice";
-import { useSelector } from "@node_modules/@types/react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "@redux/store";
 
 interface ProfileProps {
