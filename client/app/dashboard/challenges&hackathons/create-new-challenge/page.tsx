@@ -25,7 +25,6 @@ const Page: FC = () => {
     description: "",
     duration: "",
     prize: "",
-    contact: "",
     participants: [],
     projectRequirements: [],
     projectDesign: [],
