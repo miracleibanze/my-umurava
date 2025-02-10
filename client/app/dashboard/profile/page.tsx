@@ -8,7 +8,7 @@ import Link from "next/link";
 import { User } from "@redux/slices/userSlice";
 import { useRouter } from "next/navigation";
 interface ProfileProps {
-  selectedUser: User;
+  selectedUser?: User;
 }
 
 const Profile: FC<ProfileProps> = ({ selectedUser }) => {
