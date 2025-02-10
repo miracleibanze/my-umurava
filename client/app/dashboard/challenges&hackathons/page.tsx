@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC, Suspense, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@redux/store";
 import Link from "next/link";
@@ -124,4 +124,10 @@ const Page: FC = () => {
   );
 };
 
-export default Page;
+const PageWithSuspense: FC = () => (
+  <Suspense fallback={<p>Loading page...</p>}>
+    <Page />
+  </Suspense>
+);
+
+export default PageWithSuspense;

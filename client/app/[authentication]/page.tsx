@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, use } from "react";
+import { FC, Suspense, use } from "react";
 import { notFound, useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { Umuravalogo } from "@public";
@@ -27,8 +27,10 @@ const page: FC = () => {
         />
       </nav>
       <div className="w-full max-w-sm mx-auto py-4 flex flex-col">
-        {authentication === "login" && <Login />}
-        {authentication === "register" && <Register />}
+        <Suspense fallback={<p>Loading page...</p>}>
+          {authentication === "login" && <Login />}
+          {authentication === "register" && <Register />}
+        </Suspense>
       </div>
     </section>
   );
