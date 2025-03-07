@@ -61,7 +61,7 @@ const ChallengeCard: FC<Challenge> = ({
   return (
     <div
       className={`relative w-full bg-white ${
-        className ? className : "w-full max-w-[15rem]"
+        className ? className : "w-full max-w-[18rem]"
       }`}
     >
       <div
