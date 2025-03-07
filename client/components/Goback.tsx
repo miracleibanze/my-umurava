@@ -18,7 +18,7 @@ const GoBack: FC<GoBackProps> = ({ path, via, className, viaLink }) => {
       <Link href="/dashboard">
         <span className="flex items-center gap-2 px-2 py-1">
           <i
-            className={`fas fa-arrow-left ${
+            className={`fas fa-arrow-left  border border-zinc-200 bg-white py-1 px-2 ${
               via && "px-2 py-1 border border-zinc-300 rounded-sm text-[10px]"
             }`}
           ></i>{" "}

@@ -60,8 +60,8 @@ const ChallengeCard: FC<Challenge> = ({
   const encodedLink = encodeURIComponent(directLink);
   return (
     <div
-      className={`relative w-full ${
-        className ? className : "w-full max-w-[18rem]"
+      className={`relative w-full bg-white ${
+        className ? className : "w-full max-w-[15rem]"
       }`}
     >
       <div

@@ -3,16 +3,17 @@
 import { FC } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { User } from "@redux/slices/userSlice";
 
 interface ProfileComponentProps {
   user: User | null; // Explicitly define the type for `user`
 }
 
-const ProfileComponent: FC<ProfileComponentProps> = ({ user }) => { // Destructure `user` from props
+const ProfileComponent: FC<ProfileComponentProps> = ({ user }) => {
+  // Destructure `user` from props
   const router = useRouter();
-
+  const pathname = usePathname();
   // Fallback if user is not passed in the profile component.
   if (!user) return <div>No user data available</div>;
 
@@ -49,7 +50,7 @@ const ProfileComponent: FC<ProfileComponentProps> = ({ user }) => { // Destructu
             {user?.phoneNumber || "number"}
           </p>
           <p className="text-sm text-gray-700">{user?.role || "role"}</p>
-          {!user && (
+          {pathname === "/dashboard/profile" && (
             <div className="min-w-full flex-1 flex justify-end">
               <Link className="w-max" href="/dashboard/profile/edit">
                 <button className="button bg-zinc-100 hover:bg-zinc-200">

@@ -1,17 +1,25 @@
 "use client";
 
-import { useSelector } from "react-redux";
-import { RootState } from "@redux/store";
-import { FC } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@redux/store";
+import { FC, useEffect } from "react";
 import GoBack from "@components/Goback";
 import ChallengeCard from "@components/challengeCard";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { fetchChallenges } from "@redux/slices/challengeSlice";
 
 const Page: FC = () => {
   const challenges = useSelector(
     (state: RootState) => state.challenge.challenges
   );
+  const pathname = usePathname();
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
+  useEffect(() => {
+    if (challenges.length === 0) {
+      dispatch(fetchChallenges());
+    }
+  }, [dispatch, pathname]);
 
   return (
     <>
@@ -24,7 +32,7 @@ const Page: FC = () => {
               <ChallengeCard
                 {...challenges[index]}
                 key={challenges[index]?._id || index}
-                className={`!max-w-[20rem] ${index === 8 && "xl:hidden"}`}
+                className={`!max-w-[18rem] ${index === 8 && "xl:hidden"}`}
                 redirect
               />
             ))}

@@ -42,8 +42,8 @@ const userSchema = new mongoose.Schema({
     },
   },
   audit: {
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now },
+    createdAt: { type: Date, default: "" },
+    updatedAt: { type: Date, default: "" },
   },
   communityJoined: [{ type: mongoose.Schema.Types.ObjectId, ref: "Community" }],
 });

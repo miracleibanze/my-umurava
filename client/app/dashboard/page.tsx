@@ -10,6 +10,7 @@ import Link from "next/link";
 
 const Page: FC = () => {
   const { user, status, error } = useSelector((state: RootState) => state.user);
+  const { talents } = useSelector((state: RootState) => state.talent);
 
   const challenges = useSelector(
     (state: RootState) => state.challenge?.challenges
@@ -35,7 +36,7 @@ const Page: FC = () => {
     },
     {
       title: "Total Participants",
-      count: 0,
+      count: talents?.length,
       icon: "fa-users",
       link: "/dashboard/talents",
     },
@@ -196,6 +197,7 @@ const Page: FC = () => {
                 <ChallengeCard
                   key={challenges[index]._id || index}
                   {...challenges[index]}
+                  className={`!max-w-[20rem] ${index === 8 && "xl:hidden"}`}
                 />
               ))
           ) : (

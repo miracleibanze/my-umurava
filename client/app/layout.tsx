@@ -10,9 +10,7 @@ import "./globals.css";
 
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState, store } from "@redux/store";
-import { fetchChallenges } from "@redux/slices/challengeSlice";
 import { useDynamicTitle } from "@components/MetadataDecode";
-import { fetchTalents } from "@redux/slices/talentsSlice";
 import { setUser, User } from "@redux/slices/userSlice";
 
 export default function RootLayout({
@@ -45,33 +43,6 @@ function MainLayout({ children }: { children: React.ReactNode }) {
   const user = useSelector((state: RootState) => state.user.user);
   const userStatus = useSelector((state: RootState) => state.user.status);
   const pathname = usePathname();
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-
-    if (storedUser && storedUser !== "undefined") {
-      try {
-        const parsedUser = JSON.parse(storedUser) as User;
-        dispatch(setUser(parsedUser));
-      } catch (error) {
-        console.error("Failed to parse user from localStorage:", error);
-        localStorage.removeItem("user");
-      }
-    }
-  }, [dispatch]);
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (pathname.startsWith("/dashboard") && !user?.names && !storedUser) {
-      const redirectUrl = encodeURIComponent(pathname);
-      router.push(`/login?redirect=${redirectUrl}`);
-    }
-  }, [user, pathname, router]);
-
-  useEffect(() => {
-    dispatch(fetchTalents());
-    dispatch(fetchChallenges());
-  }, [dispatch]);
 
   const showNavbar =
     pathname === "/" ||

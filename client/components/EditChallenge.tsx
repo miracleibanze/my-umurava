@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@redux/store";
 import { Challenge, editChallenge } from "@redux/slices/challengeSlice";
 import { FC, useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface ChallengeDetailsProps {
   challenge: Challenge | undefined;
@@ -19,10 +20,15 @@ const EditChallenge: FC<ChallengeDetailsProps> = ({ challenge }) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
+  const router = useRouter();
+
   const handleSubmit = () => {
     if (!challenge?._id) return;
     dispatch(
       editChallenge({ challengeId: challenge?._id, updatedData: formData })
+    );
+    router.push(
+      `/dashboard/challenges&hackathons/${challenge.title}/${challenge._id}`
     );
   };
 

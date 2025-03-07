@@ -14,7 +14,7 @@ const communitySchema = new mongoose.Schema({
   visibility: { type: String, required: true },
   members: { type: Number, default: 0 },
   listOfMembers: { type: [memberSchema] },
-  createdAt: { type: Date, default: Date.now },
+  createdAt: { type: Date, default: "" },
 });
 
 module.exports = mongoose.model("Community", communitySchema);

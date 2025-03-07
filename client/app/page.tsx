@@ -137,14 +137,14 @@ const Home: FC = () => {
         </div>
       </header>
       {/* Second Section */}
-      <section className="container mx-auto py-12 md:px-12 px-6">
+      <section className="container mx-auto py-12 md:px-12 px-6 bg-zinc-100">
         <Heading
           title="Experience a New Way of Building"
           title2="Work Experience"
           text="Join Skills Challenge Program to accelerate your career growth and become part of africa's largest workforce at digital professionals."
         />
 
-        <div className="grid sm:grid-cols-2 gap-8  text-white">
+        <div className="grid sm:grid-cols-2 gap-3 w-full max-w-4xl mx-auto mb-12 text-white mt-4">
           <div className="p-6 rounded-lg shadow-md sm:col-span-2 bg-primary">
             <i className="fas fa-briefcase bg-white text-primary p-5 rounded-md"></i>
             <p className="body-1 mt-4 font-semibold">
