@@ -75,13 +75,6 @@ const Login = () => {
       setIsLoggingIn(false);
     }
   };
-  useEffect(() => {
-    if (status === "succeeded" && user?.names) {
-      router.push(redirectTo);
-    } else if (status === "succeeded" && !user?.names) {
-      setError({ ...error, data: "invalid email or password" });
-    }
-  }, [status]);
 
   return (
     <>
