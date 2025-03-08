@@ -96,7 +96,7 @@ const Page: FC = () => {
         )}
       </div>
 
-      <div className="w-full flex flex-wrap gap-3 py-12 justify-items-center">
+      <div className="w-full flex flex-wrap gap-3 py-16 justify-items-center">
         {loadingChallenges ? (
           <div className="px-4 p-8 flex flex-wrap gap-3 justify-center">
             {Array(6)

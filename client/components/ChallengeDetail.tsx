@@ -38,7 +38,7 @@ const ChallengeDetails: FC<ChallengeDetailsProps> = ({ challenge, admin }) => {
   return (
     <>
       {challenge ? (
-        <div className="p-6 flex justify-center items-start gap-4">
+        <div className="p-6 flex md:flex-row flex-col justify-center items-start gap-4">
           <div className="w-full max-w-xl rounded-md bg-white p-6 border border-zinc-200 mx-auto">
             <div className="w-full h-auto mb-2">
               <Image

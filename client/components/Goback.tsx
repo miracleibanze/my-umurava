@@ -27,7 +27,7 @@ const GoBack: FC<GoBackProps> = ({ path, via, className, viaLink }) => {
       </Link>
 
       {via && (
-        <Link href={viaLink ? viaLink : "/dashboard"}>
+        <Link href={viaLink ? viaLink : "/dashboard"} className="max-md:hidden">
           <span className="text-zinc-400 cursor-pointer">{via}</span>
         </Link>
       )}

@@ -69,6 +69,7 @@ const Login = () => {
 
     try {
       dispatch(loginUser(formData));
+      router.push("/dashboard");
     } catch (err) {
       console.log(err);
     } finally {
