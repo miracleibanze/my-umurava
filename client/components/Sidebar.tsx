@@ -67,9 +67,9 @@ const Sidebar: FC = () => {
     useState<boolean>(false);
 
   const handleLogout = () => {
-    dispatch(clearUser());
     setIsLogoutModalOpen(false);
     router.push("/login");
+    dispatch(clearUser());
   };
 
   const handleWhatsApp = () => {
