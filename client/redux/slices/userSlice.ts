@@ -123,6 +123,7 @@ const userSlice = createSlice({
       localStorage.setItem("user", JSON.stringify(action.payload));
     },
     clearUser: (state) => {
+      state.status = "idle";
       state.user = null;
       localStorage.removeItem("token");
       localStorage.removeItem("user");

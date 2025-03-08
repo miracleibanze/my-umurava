@@ -69,13 +69,17 @@ const Login = () => {
 
     try {
       dispatch(loginUser(formData));
-      router.push("/dashboard");
     } catch (err) {
       console.log(err);
     } finally {
       setIsLoggingIn(false);
     }
   };
+  useEffect(() => {
+    if (status === "succeeded") {
+      router.push("/dashboard");
+    }
+  }, [status]);
 
   return (
     <>
